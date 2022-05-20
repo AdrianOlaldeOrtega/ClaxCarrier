@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tarjetas` (
   `fecha_vencimiento` DATE NOT NULL,
   `usuarios_idusuarios` INT NOT NULL,
   PRIMARY KEY (`idtarjetas`, `usuarios_idusuarios`),
-  INDEX `fk_tarjetas_usuarios_idx` (`usuarios_idusuarios` ASC) VISIBLE,
+  INDEX `fk_tarjetas_usuarios_idx` (`usuarios_idusuarios` ASC),
   CONSTRAINT `fk_tarjetas_usuarios`
     FOREIGN KEY (`usuarios_idusuarios`)
     REFERENCES `mydb`.`usuarios` (`idusuarios`)
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pedido` (
   `idpedido` INT NOT NULL AUTO_INCREMENT,
   `usuarios_idusuarios` INT NOT NULL,
   PRIMARY KEY (`idpedido`, `usuarios_idusuarios`),
-  INDEX `fk_pedido_usuarios1_idx` (`usuarios_idusuarios` ASC) VISIBLE,
+  INDEX `fk_pedido_usuarios1_idx` (`usuarios_idusuarios` ASC),
   CONSTRAINT `fk_pedido_usuarios1`
     FOREIGN KEY (`usuarios_idusuarios`)
     REFERENCES `mydb`.`usuarios` (`idusuarios`)
@@ -119,8 +119,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pedido_has_producto` (
   `pedido_idpedido` INT NOT NULL,
   `producto_idproducto` INT NOT NULL,
   PRIMARY KEY (`pedido_idpedido`, `producto_idproducto`),
-  INDEX `fk_pedido_has_producto_producto1_idx` (`producto_idproducto` ASC) VISIBLE,
-  INDEX `fk_pedido_has_producto_pedido1_idx` (`pedido_idpedido` ASC) VISIBLE,
+  INDEX `fk_pedido_has_producto_producto1_idx` (`producto_idproducto` ASC),
+  INDEX `fk_pedido_has_producto_pedido1_idx` (`pedido_idpedido` ASC),
   CONSTRAINT `fk_pedido_has_producto_pedido1`
     FOREIGN KEY (`pedido_idpedido`)
     REFERENCES `mydb`.`pedido` (`idpedido`)

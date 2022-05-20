@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}
+  Almacen
+{% endblock titulo %}
+{% block cabecera %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+      main {
+  padding: 120px;
+}
+
+h4 {
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: 30px;
+  color: #030303;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+hr {
+  margin-bottom: 16px;
+  border: 1px solid #716fdd5d;
+}
+
+.border-card {
+  background: rgb(152, 168, 212);
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto";
+  font-size: 14px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
+}
+.border-card:hover {
+  -webkit-transform: translateY(-1px);
+          transform: translateY(-1px);
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+.border-card.over {
+  background: rgba(70, 222, 151, 0.15);
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border: 2px solid #47DE97;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0), 0 5px 10px 0 rgba(0, 0, 0, 0);
+}
+.border-card.over .card-type-icon {
+  color: #47DE97 !important;
+}
+.border-card.over p {
+  color: #47DE97 !important;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.min-gap {
+  flex: 0 0 40px;
+}
+
+.card-type-icon {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 16px;
+  font-weight: 400;
+  color: #323232;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+.card-type-icon.with-border {
+  color: #4d4c4c;
+  border: 1px solid #eaeaea;
+}
+.card-type-icon i {
+  line-height: 40px;
+}
+
+.label-group {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.label-group.fixed {
+  flex-shrink: 0;
+}
+.label-group p {
+  margin: 0px;
+  line-height: 21px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.label-group p.title {
+  color: #323232;
+  font-weight: 500;
+}
+.label-group p.title.cta {
+  text-transform: uppercase;
+}
+.label-group p.caption {
+  font-weight: 400;
+  color: #302828;
+}
+
+.end-icon {
+  margin-left: 16px;
+}
+
+    </style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+{% endblock cabecera %}
+{% block cuerpo %}
+<div class="container">
+  <main>
+    <div class="text-center">
+      <h2>Productos</h2>
+    </div>
+    <div class="">
+        <a class="btn btn-success" href="{% url 'nuevoProducto' %}" role="button">Nuevo</a>
+        <br>
+    </div>
+    <div class="">
+      <form action = "{% url 'buscarNombreProducto' %}" method = "POST" class="d-flex">
+          {% csrf_token %}
+              <input class="form-control me-2" type="search" name = "nombre" id="name" placeholder="Nombre" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+    <div class="">
+      <form action = "{% url 'buscarCategoriaProducto' %}" method = "POST" class="d-flex">
+          {% csrf_token %}
+          <label for="CategoriaProducto" class="form-label">Categoria</label>
+          <select class="form-select" name = "CategoriaProducto" id="CategoriaProducto" required>
+            <option selected>Seleccionar una</option>
+            <option >Videovigilancia</option>
+            <option >Redes Computacionales</option>
+            <option >Energias Limpias</option>
+          </select>
+               <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+    <div class="">
+      <form action = "{% url 'buscarStockProducto' %}" method = "POST" class="d-flex">
+          {% csrf_token %}
+              <input class="form-control me-2" type="number" min="0" name = "stock" placeholder="Stock menor a" aria-label="Search">
+               <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+    <hr>
+    {% for producto in productos%}
+    <div class="border-card">
+    <div class="card-type-icon with-border">{{producto.id}}</div>
+    <div class="content-wrapper">
+    <div class="label-group fixed">
+    <p class="title">{{producto.nombre}} </p>
+    <p class="caption">Precio: ${{producto.precio}}0</p>
+    {%if producto.stock == 0%}
+    <p class="caption">Stock: NO HAY EN STOCK</p>
+    {%else%}
+    <p class="caption">Stock: {{producto.stock}}</p>
+    {%endif%}
+    <p class="caption">Precio: {{producto.categoria}}</p>
+
+    </div>
+
+
+    </div>
+    <div class="dropdown dropend">
+  <button class="btn btn-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="material-icons end-icon">more_vert</i>
+  </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href = "{% url 'editarProducto' producto.id %}"><i class="material-icons end-icons">edit</i>  Editar información</a></li>
+        <li><a class="dropdown-item" href = "{% url 'editarStock' producto.id %}"><i class="material-icons end-icons">history</i>  Restock</a></li>
+        <li><a class="dropdown-item" href = "{% url 'bajaProducto' producto.id %}"><i class="material-icons end-icons">delete</i>  Eliminar</a></li>
+    </ul>
+</div>
+    </div>
+    {% endfor %}
+
+
+
+
+
+  </main>
+
+</div>
+{% endblock cuerpo %}
+{% block piePaigna %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script id="rendered-js">
+      $('.droppable').bind('dragover', function (e) {
+  $(this).addClass('over');
+
+  if (e.originalEvent.preventDefault)
+  e.preventDefault();
+
+  e.originalEvent.dataTransfer.dropEffect = 'copy';
+  return false;
+});
+
+
+$('.droppable').bind('dragenter', function (e) {
+  $(this).addClass('over');
+});
+
+$('.droppable').bind('dragleave', function (e) {
+  $(this).removeClass('over');
+});
+
+
+$('.droppable').bind('drop', function (e) {
+  $(this).removeClass('over');
+
+  if (e.originalEvent.stopPropagation)
+  e.originalEvent.stopPropagation();
+
+  var stuff = $(e.originalEvent.dataTransfer.getData('stuff'));
+  stuff.appendTo(this);
+  return false;
+});
+      //# sourceURL=pen.js
+    </script>
+{% endblock piePaigna %}

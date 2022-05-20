@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+			<link rel="icon" type="image/png" href="{% static '/images/logo.png'%}" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Claxcarrier</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+
+  <!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css'%}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css'%}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css'%}">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
+	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{% static 'css/style.css'%}">
+
+	<!-- Modernizr JS -->
+	<script src="{% static 'js/modernizr-2.6.2.min.js'%}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+		
+	<div class="colorlib-loader"></div>
+
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
+							<div id="colorlib-logo"><a><img src="{% static 'images/logo.png'%}" height="120" width="150" left = "100">ClaxCarrier</a> </div>
+							
+						</div>
+						<div class="col-md-10 text-right menu-1">
+							<ul>
+								<li><a href="{% url 'index'%}">Inicio</a></li>
+								<li class="active"><a href="{% url 'producto'%}">Productos</a></li>
+								<li><a href="{% url 'contacto'%}">Contratar</a></li>
+								<a class="icon"><i class="icon-bag"></i></a>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<section id="home" class="video-hero" style="height: 500px; background-image: url({% static 'images/fondo.png'%});  background-position: top center;" data-section="home">
+		<div class="overlay"></div>
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="animate-box">
+								<h2>CLAXCARRIER</h2>
+								<p>El Internet más rápido de la región</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="colorlib-work-featured colorlib-bg-white">
+			<div class="container">
+				<div class="row mobile-wrap">
+					<div class="col-md-5 animate-box">
+						<div class="mobile-img" style="height: 500px; background-image: url({{producto.urlImagen}});"></div>
+					</div>
+					<div class="col-md-7 animate-box">
+						<div class="desc">
+							<h3>{{producto.nombre}}</h3>
+							<div class="features">
+								<div class="f-desc">
+									<p>{{producto.descripcion}} </p>
+								</div>
+							</div>
+							<div class="features">
+								<div class="f-desc">
+									<p>$ {{producto.precio}}0 MXN</p>
+								</div>
+                                <nav class="blog-pagination" aria-label="Pagination">
+                                    <a class="btn btn-outline-primary rounded-pill" id="mas" onclick="return sumar({{producto.stock}});">+</a>
+                                    <input type="number" id="cantidad" value="0" max="{{producto.stock}}" min="0" readOnly>
+                                    <a class="btn btn-outline-secondary rounded-pill" id="menos" onclick="return restar();">-</a>
+                                  </nav>
+								<div class="f-desc">
+									<h5>{{producto.stock}} pieza(s) disponibles.</h5>
+								</div>
+								<p><a href="{% url 'contacto'%}" class="btn btn-primary">Agregar al Carrito</a></p>
+							</div>
+							</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+
+		<footer id="colorlib-footer">
+			<div class="container">
+				<div class="row row-pb-md">
+					<div class="col-md-3 colorlib-widget">
+						<h4>Informacion de Contacto</h4>
+						<ul class="colorlib-footer-links">
+							<li>Calle José María Morelos #15<br> Colonia Centro, Queréndaro Michoacán. <br>C.P. 58980</li>
+							<li><a href="tel://4513526325"><i class="icon-phone"></i> (451)-352-6235</a></li>
+							<li><a href="mailto:ventas@claxcarrier.com.mx"><i class="icon-envelope"></i> ventas@claxcarrier.com.mx</a></li>
+							<li><a href="{% url 'index'%}"><i class="icon-location4"></i> claxcarrier.com.mx</a></li>
+						</ul>
+						<p><ul class="colorlib-social-icons">
+								<li><a href="https://www.facebook.com/CLAXCARRIER/"><i class="icon-facebook"></i>	Facebook</a></li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery.min.js'%}"></script>
+	<!-- jQuery Easing -->
+	<script src="{% static 'js/jquery.easing.1.3.js'%}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js'%}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js'%}"></script>
+	<!-- Stellar Parallax -->
+	<script src="{% static 'js/jquery.stellar.min.js'%}"></script>
+	<!-- YTPlayer -->
+	<script src="{% static 'js/jquery.mb.YTPlayer.min.js'%}"></script>
+	<!-- Owl carousel -->
+	<script src="{% static 'js/owl.carousel.min.js'%}"></script>
+	<!-- Magnific Popup -->
+	<script src="{% static 'js/jquery.magnific-popup.min.js'%}"></script>
+	<script src="{% static 'js/magnific-popup-options.js'%}"></script>
+	<!-- Counters -->
+	<script src="{% static 'js/jquery.countTo.js'%}"></script>
+	<!-- Main -->
+	<script src="{% static 'js/main.js'%}"></script>
+    <script>
+        function sumar(stock){
+          var valor = Number(document.getElementById("cantidad").value);
+          var total = valor + 1
+          if (total>stock){
+            total = stock
+          }
+          document.getElementById("cantidad").setAttribute('value', total);
+        }
+        function restar(){
+            var valor = Number(document.getElementById("cantidad").value);
+            var total = valor - 1
+            if (total<=0){
+              total = 1
+            }
+            document.getElementById("cantidad").setAttribute('value', total);
+          }
+      </script>
+	</body>
+</html>
+
