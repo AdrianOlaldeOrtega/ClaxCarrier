@@ -41,7 +41,7 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="{% static 'icons/family_restroom_black_24dp.svg' %}" alt="" width="72" height="57">
+      <img class="d-block mx-auto mb-4" src="{% static 'images/icono-editarinfo.png' %}" alt="" width="100" height="100">
       <h2>Editar Producto</h2>
       <p class="lead">Por Favor Llene Los Siguientes Datos</p>
     </div>
@@ -52,7 +52,7 @@
               <label for="NombreProducto" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="NombreProducto" name="NombreProducto" placeholder="" value="{{producto.nombre}}" required>
               <div class="invalid-feedback">
-                El Nombre es requerido
+                El Nombre del Producto es requerido.
               </div>
             </div>
             <div class="col-md-4">
@@ -82,16 +82,16 @@
 
             <div class="col-sm-4">
               <label for="PrecioProducto" class="form-label">Precio ($)</label>
-              <input type="number" class="form-control" min="0" id="PrecioProducto" name="PrecioProducto" placeholder="" value="{{producto.precio}}" required>
+              <input type="number" class="form-control" min="0" id="PrecioProducto" name="PrecioProducto" onkeypress='return validaNumericos(event)' placeholder="" value="{{producto.precio}}" required>
               <div class="invalid-feedback">
-                El Precio es requerido
+                El Precio es requerido.
               </div>
             </div>
             <div class="col-md-12">
                 <label for="URLImagenProducto" class="form-label">URL imagen</label>
                <input type="text" class="form-control" id="URLImagenProducto" name="URLImagenProducto" placeholder="" value="{{producto.urlImagen}}" required>
                 <div class="invalid-feedback">
-                  La Imagen es requerida
+                  La Imagen es requerida.
                 </div>
               </div>
             
@@ -99,15 +99,18 @@
               <label for="DescripcionProducto" class="form-label">Descripción</label>
              <input type="text" class="form-control" id="DescripcionProducto" name="DescripcionProducto" placeholder="" value="{{producto.descripcion}}" required>
               <div class="invalid-feedback">
-                La Descripción es requerida
+                La Descripción es requerida.
               </div>
             </div>
             
 
           <hr class="my-4">
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Enviar </button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Enviar </button>
   <a type="button" class="btn btn-outline-secondary" href = "{% url 'almacenHome' %}"> Cancelar </a>
+  <a type="button" class="btn btn-outline-secondary" id = "Vacio" href = "{% url 'almacenHome' %}"> Cancelar </a>
+  
+  <div class="row"></div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -135,9 +138,20 @@
 
 
   {% block piePaigna %}
-  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="form-validation.js"></script>
+  <script src="https://getbootstrap.com/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://getbootstrap.com/docs/5.2/examples/checkout/form-validation.js"></script>
   <script>
     feather.replace()
+  </script>
+  <script>
+    document.getElementById('Vacio').style.visibility = "hidden";
+</script>
+  <script>
+    function validaNumericos(event) {
+        if(event.charCode >= 48 && event.charCode <= 57){
+          return true;
+         }
+         return false;        
+    }
   </script>
   {% endblock piePaigna %}

@@ -1,0 +1,235 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/png" href="{% static '/images/logo.png'%}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.98.0">
+    <title>Compra</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/checkout/">
+
+    
+
+    
+
+<link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="{% static '/images/icono-ventas.png'%}" alt="" width="100" height="100">
+      <h2>Finaliza tu Compra</h2>
+      <p class="lead">LLena los siguientes datos para finalizar tu compra:</p>
+    </div>
+
+      <div class="col-md-7 col-lg-12">
+        <h4 class="mb-3">Datos Personales</h4>
+        <form class="needs-validation" novalidate action="{% url 'guardarVenta' %}" method="POST">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Nombre(s)</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" required>
+              <div class="invalid-feedback">
+                El campo Nombre(s) es requerido.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Apellido(s)</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                El campo Apellido(s) es requerido.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="email" class="form-label">Correo Electronico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="nombre@correo.com" required>
+              <div class="invalid-feedback">
+                Ingresar un Correo Electronico valido.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Domicilio</label>
+              <input type="text" class="form-control" id="address" name="address" placeholder="Calle | Numero interior y/o exterior | Colonia o Residencia" required>
+              <div class="invalid-feedback">
+                El campo Domicilio es requerido.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">Indicaciones Adicionales <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address2" name="address2" placeholder="Entre calles...">
+            </div>
+
+            <div class="col-md-4">
+                <label for="state" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="state" name="state" placeholder="" required>  
+              <div class="invalid-feedback">
+                El campo Estado es necesario.
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <label for="country" class="form-label">País</label>
+              <input type="text" class="form-control" id="country" name="country" value="Mexico" placeholder="" readOnly>
+            </div>
+
+            <div class="col-md-3">
+              <label for="zip" class="form-label">Codigo Postal</label>
+              <input type="text" maxlength="5" class="form-control" id="zip" name="zip" placeholder="" onkeypress='return validaNumericos(event)' required>
+              <div class="invalid-feedback">
+                Ingresar un Codigo Postal valido.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Forma de Pago</h4>
+
+          <div class="col-md-4">
+            <label for="paymenMethod" class="form-label">Metodo de Pago</label>
+            <select class="form-select" name = "paymentMethod" id="paymenMethod" required>
+              <option value="">Seleccionar una</option>
+              <option >Tarjeta de Credito</option>
+              <option >Tarjeta de Debito</option>
+            </select>
+           <div class="invalid-feedback">
+            Ingresar una Forma de Pago valida.
+          </div> 
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Nombre del propietario</label>
+              <input type="text" class="form-control" id="cc-name" name="cc-name" placeholder="" required>
+              <small class="text-muted">El Nombre completo que esta en la tarjeta</small>
+              <div class="invalid-feedback">
+                El Nombre del propietario es requerido.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Numero de tarjeta de Credito/Debito</label>
+              <input type="text" class="form-control" maxlength="16" id="cc-number" name="cc-number" onkeypress='return validaNumericos(event)' placeholder="" required>
+              <div class="invalid-feedback">
+                Ingresar un Numero de Tarjeta valido.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Vencimiento</label>
+              <input type="text" class="form-control" maxlength = "5" id="cc-expiration" name="cc-expiration" placeholder="00/00" required>
+              <div class="invalid-feedback">
+                Ingresar un fecha valida.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" maxlength = "3" id="cc-cvv" name="cc-cvv" onkeypress='return validaNumericos(event)' placeholder="000" required>
+              <div class="invalid-feedback">
+                Ingresar un CVV valido.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Finalizar Compra</button>
+          <a id="espacio">Espacio en blanco</a>
+          <p><a href="{% url 'verCarrito' %}" class="w-100 btn btn-outline-secondary btn-lg">Cancelar</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    
+  </footer>
+</div>
+
+
+    <script src="https://getbootstrap.com/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://getbootstrap.com/docs/5.2/examples/checkout/form-validation.js"></script>
+    <script>
+        document.getElementById('espacio').style.visibility = "hidden";
+    </script>
+    <script>
+        function validaNumericos(event) {
+            if(event.charCode >= 48 && event.charCode <= 57){
+              return true;
+             }
+             return false;        
+        }
+    </script>
+  </body>
+</html>

@@ -127,7 +127,7 @@
 								<li><a href="{% url 'index'%}">Inicio</a></li>
 								<li class="active"><a href="#">Productos</a></li>
 								<li><a href="{% url 'contacto'%}">Contratar</a></li>
-                                <li><a class="icon"><i class="icon-bag"></i></a></li>
+                                <li><a class="icon" href="{% url 'verCarrito'%}"><i class="icon-bag"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -160,6 +160,7 @@
                 </div>
                 <div class="row mb-6">
                     {% for producto in vigilancia%}
+                    {% if producto.stock != 0%}
                     <div class="col-md-4">
                         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                             <div class="col p-4 d-flex flex-column position-static">
@@ -174,6 +175,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                     <nav class="blog-pagination" aria-label="Pagination">
                         <a class="btn btn-outline-primary rounded-pill" href="{% url 'verCatalogo' 1%}">Ver todo</a>
@@ -186,6 +188,7 @@
                 </div>
                 <div class="row mb-6">
                     {% for producto in redes%}
+                    {% if producto.stock != 0%}
                     <div class="col-md-4">
                         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                             <div class="col p-4 d-flex flex-column position-static">
@@ -200,6 +203,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                     <nav class="blog-pagination" aria-label="Pagination">
                         <a class="btn btn-outline-primary rounded-pill" href="{% url 'verCatalogo' 2%}">Ver todo</a>
@@ -212,6 +216,7 @@
                 </div>
                 <div class="row mb-6">
                     {% for producto in energia%}
+                    {% if producto.stock != 0 %}
                     <div class="col-md-4">
                         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                             <div class="col p-4 d-flex flex-column position-static">
@@ -226,6 +231,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                     <nav class="blog-pagination" aria-label="Pagination">
                         <a class="btn btn-outline-primary rounded-pill" href="{% url 'verCatalogo' 3%}">Ver todo</a>

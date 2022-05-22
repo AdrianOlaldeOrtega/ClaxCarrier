@@ -13,41 +13,16 @@
   </head>
   <body>
     <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">Datos</h4>
-              <p class="text-muted">Info</p>
-            </div>
-            <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">App</h4>
-              <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Info</a></li>
-                <li><a href="#" class="text-white">Info</a></li>
-                <li><a href="#" class="text-white">Info</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
           <a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="white"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5.69l5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
-            <strong>Home</strong>
+            Logout
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          <h4 style="color: #f9fafb; font-size: 12px;" >Hola Juan, Bienvenido</h4>
         </div>
       </div>
     </header>
-    <nav class="navbar navbar-light bg-light">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">ClaxCarrier</span>
-      </div>
-    </nav>
 
     {% block cuerpo %}
 

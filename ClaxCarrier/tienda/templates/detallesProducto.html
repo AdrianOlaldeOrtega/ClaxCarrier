@@ -68,7 +68,7 @@
 								<li><a href="{% url 'index'%}">Inicio</a></li>
 								<li class="active"><a href="{% url 'producto'%}">Productos</a></li>
 								<li><a href="{% url 'contacto'%}">Contratar</a></li>
-								<a class="icon"><i class="icon-bag"></i></a>
+								<li><a class="icon" href="{% url 'verCarrito'%}"><i class="icon-bag"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -91,7 +91,8 @@
 				</div>
 			</div>
 		</section>
-
+	<form class="needs-validation" novalidate action= "{% url 'agregarProducto' %}" method="POST">
+			{% csrf_token %}
 		<div class="colorlib-work-featured colorlib-bg-white">
 			<div class="container">
 				<div class="row mobile-wrap">
@@ -112,13 +113,14 @@
 								</div>
                                 <nav class="blog-pagination" aria-label="Pagination">
                                     <a class="btn btn-outline-primary rounded-pill" id="mas" onclick="return sumar({{producto.stock}});">+</a>
-                                    <input type="number" id="cantidad" value="0" max="{{producto.stock}}" min="0" readOnly>
+                                    <input type="number" name="cantidad" id="cantidad" value="1" max="{{producto.stock}}" min="1" readOnly>
                                     <a class="btn btn-outline-secondary rounded-pill" id="menos" onclick="return restar();">-</a>
                                   </nav>
 								<div class="f-desc">
 									<h5>{{producto.stock}} pieza(s) disponibles.</h5>
+									<input type="text" name="idProductoO"  id="idProductoO" value="{{producto.id}}" readOnly>
 								</div>
-								<p><a href="{% url 'contacto'%}" class="btn btn-primary">Agregar al Carrito</a></p>
+								<button type="submit" class="btn btn-primary">Agregar al Carrito</button>
 							</div>
 							</div>
 					</div>
@@ -126,6 +128,7 @@
 				
 			</div>
 		</div>
+	</form>
 
 
 		<footer id="colorlib-footer">
@@ -192,6 +195,9 @@
             document.getElementById("cantidad").setAttribute('value', total);
           }
       </script>
+	  <script>
+		  document.getElementById('idProductoO').style.visibility = "hidden";
+	  </script>
 	</body>
 </html>
 

@@ -9,6 +9,19 @@ urlpatterns = [
     path('productos/', views.producto, name='producto'),
     path('catalogo/<int:categoria>', views.catalogo, name='verCatalogo'),
     path('detallesProducto/<int:id>', views.detalles, name='verDetalles'),
+    
+    #CARRITO
+    path('carrito/', views.carrito, name='verCarrito'),
+    path('agregarProducto/', views.agregar_producto, name="agregarProducto"),
+    path('eliminarProductoC/<int:id>', views.eliminar_producto, name="eliminarProductoCarrito"),
+    path('sumarProducto/<int:id>', views.sumar_producto, name="sumarProductoCarrito"),
+    path('restarProducto/<int:id>', views.restar_producto, name="restarProductoCarrito"),
+    path('limpiarLista/', views.limpiar_carrito, name="limpiarCarrito"),
+
+    #FINALIZAR COMPRA
+    path('comprar/', views.compra, name="finalizarCompra"),
+    path('final/', views.graciasCompra, name="graciasCompra"),
+    path('finalizo/', views.guardarVenta, name="guardarVenta"),
 
     #ALMACENISTA
     path("almacen/", views.almacenHome, name="almacenHome"),
@@ -23,5 +36,8 @@ urlpatterns = [
     path('filtroNombre/', views.filtroNombre, name="buscarNombreProducto"),
     path('filtroCategoria/', views.filtroCategoria, name="buscarCategoriaProducto"),
     path('filtroStock/', views.filtroStock, name="buscarStockProducto"),
+
+    #ADMINISTRADOR
+    path("administrador/", views.adminHome, name="adminHome"),
     
 ]

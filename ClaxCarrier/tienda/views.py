@@ -1,6 +1,8 @@
 from asyncio.windows_events import NULL
+from datetime import date
 from django.shortcuts import redirect, render
-from .models import Producto
+from tienda.Carrito import Carrito
+from .models import Producto, Venta, Cliente, ArticuloVendido
 # Create your views here.
 #HOME
 def index(request):
@@ -29,9 +31,88 @@ def detalles(request, id):
     producto = Producto.objects.get(id=id)
     return render(request, 'detallesProducto.html',{"producto":producto})
 
+#CARRITO
+def carrito(request):
+    return render(request, 'carrito.html')
+
+def agregar_producto(request):
+    post = Producto()
+    if request.method == 'POST':    
+        id = request.POST["idProductoO"]    
+        cantidad = request.POST["cantidad"]
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.agregar(producto,cantidad)
+    return redirect('verCarrito')
+
+def sumar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.suma(producto)
+    return redirect('verCarrito')
+
+def eliminar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.eliminar(producto.id)
+    return redirect('producto')
+
+def restar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.restar(producto)
+    return redirect('verCarrito')
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect('producto')
+
+#COMPRAS
+def compra(request):
+    return render(request, 'finalizarCompra.html')
+    
+def graciasCompra(request):
+    return render(request, 'graciasCompra.html')
+
+def guardarVenta(request):
+    venta = Venta()
+    cliente = Cliente()
+    articulo = ArticuloVendido()
+    carrito = Carrito(request)
+    if request.method == 'POST':
+        cliente.nombreCliente = request.POST["firstName"]
+        cliente.apellidoCliente = request.POST["lastName"]
+        cliente.email = request.POST["email"]
+        cliente.Domicilio = request.POST["address"]
+        cliente.infoAdicional = request.POST["address2"]
+        cliente.estado = request.POST["state"]
+        cliente.pais = request.POST["country"]
+        cliente.codigoPostal = request.POST["zip"]
+        cliente.save() 
+        clien = Cliente.objects.all().order_by('-id')[:1]
+        for c in clien:
+            venta.idCliente = c.id
+        venta.formaPago = request.POST["paymentMethod"]
+        venta.fechaRealizada = date.today().strftime('%Y-%m-%d')
+        venta.nombrePropietario = request.POST["cc-name"]
+        venta.numeroTarjeta = request.POST["cc-number"]
+        venta.vencimiento = request.POST["cc-expiration"]
+        venta.cvv = request.POST["cc-cvv"]
+        venta.status = "Pendiente"
+        venta.total = carrito.total()
+        venta.save()
+        articulos = carrito.cantidadArticulo()
+        for articulo in articulos:
+            print(articulo)
+            carrito.articulo(articulo)
+        
+    carrito.limpiar()
+    return redirect('graciasCompra')
+
 #ALMACENISTA
 def almacenHome(request):
-    productos = Producto.objects.all().order_by('id')
+    productos = Producto.objects.all().order_by('stock')
     return render(request, "almacenHome.html", {"productos":productos})
 
 def nuevoProducto(request):
@@ -90,17 +171,22 @@ def eliminarProducto(request, id):
 def filtroNombre(request):
     if request.method == 'POST':
         nombre = request.POST["nombre"]
-        post = Producto.objects.filter(nombre__unaccent__icontains=nombre)
+        post = Producto.objects.filter(nombre=nombre).order_by('stock')
     return render(request, "buscarProducto.html", {"productos":post})
 
 def filtroCategoria(request):
     if request.method == 'POST':
         categoria = request.POST["CategoriaProducto"]
-        post = Producto.objects.filter(categoria=categoria)
+        post = Producto.objects.filter(categoria=categoria).order_by('stock')
     return render(request, "buscarProducto.html", {"productos":post})
 
 def filtroStock(request):
     if request.method == 'POST':
         stock = request.POST["stock"]
-        post = Producto.objects.filter(stock__lte=stock)
+        post = Producto.objects.filter(stock__lte=stock).order_by('stock')
     return render(request, "buscarProducto.html", {"productos":post})
+
+#ADMINISTRADOR
+def adminHome(request):
+    ventas = Venta.objects.all().order_by('fechaRealizada')
+    return render(request, "adminHome.html", {"ventas":ventas})
