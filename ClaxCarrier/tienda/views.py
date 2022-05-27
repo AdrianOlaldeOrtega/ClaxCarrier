@@ -1,6 +1,10 @@
 from asyncio.windows_events import NULL
 from datetime import date
 from django.shortcuts import redirect, render
+from ClaxCarrier import settings
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
 from tienda.Carrito import Carrito
 from .models import Producto, Venta, Cliente, ArticuloVendido
 # Create your views here.
@@ -43,6 +47,7 @@ def agregar_producto(request):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=id)
     carrito.agregar(producto,cantidad)
+    total=carrito.total
     return redirect('verCarrito')
 
 def sumar_producto(request, id):
@@ -106,7 +111,25 @@ def guardarVenta(request):
         for articulo in articulos:
             print(articulo)
             carrito.articulo(articulo)
-        
+        #Inicia mailer
+        vent = Venta.objects.all().order_by('-id')[:1]
+        for v in vent:
+            ventaId=v.id
+            ventatotal=v.total
+        articulosventa=ArticuloVendido.objects.filter(id=ventaId)
+        mail = create_mail(
+        request.POST["email"],
+        'Confirmación de pedido',
+        'correo.html',
+        {
+            'username': request.POST["firstName"],
+            'formapago': request.POST["paymentMethod"],
+            'totalventa': ventatotal,
+            'articulos': articulosventa
+        }
+        )
+        mail.send(fail_silently=False)
+    
     carrito.limpiar()
     return redirect('graciasCompra')
 
@@ -114,6 +137,10 @@ def guardarVenta(request):
 def almacenHome(request):
     productos = Producto.objects.all().order_by('stock')
     return render(request, "almacenHome.html", {"productos":productos})
+
+def editarestado(request,Idventa):
+    venta = Venta.objects.filter(id=Idventa).update(field8='Completada')
+
 
 def nuevoProducto(request):
     return render(request, 'InsertarProducto.html')
@@ -190,3 +217,42 @@ def filtroStock(request):
 def adminHome(request):
     ventas = Venta.objects.all().order_by('fechaRealizada')
     return render(request, "adminHome.html", {"ventas":ventas})
+
+def actualizarEstado(request,id):
+    post = Venta.objects.get(id=id)
+    print(post.status)
+    estado="Completada"
+    post.status = estado
+    print("1"+post.status)
+    post.save()
+    ventas = Venta.objects.all().order_by('fechaRealizada')
+    return render(request,"actualizarEstado.html",{"ventas":ventas})
+
+def buscarIdVenta(request):
+    if request.method == 'POST':
+        id = request.POST["nombre"]
+        post = Venta.objects.filter(id=id).order_by("id")
+    return render(request, "buscarventaid.html", {"ventas":post})
+
+def buscarFechaventa(request):
+    if request.method == 'POST':
+        id = request.POST["Fecha"]
+        post = Venta.objects.filter(fechaRealizada=id).order_by("fechaRealizada")
+    return render(request, "buscarventafecha.html", {"ventas":post})
+
+def create_mail(user_mail, subject, tem,context):
+    template = get_template('correo.html')
+    content = template.render(context)
+
+    message = EmailMultiAlternatives(
+        subject=subject,
+        body='',
+        from_email=settings.EMAIL_HOST_USER,
+        to=[
+            user_mail
+        ],
+        cc=[settings.EMAIL_HOST_USER]
+    )
+
+    message.attach_alternative(content, 'text/html')
+    return message

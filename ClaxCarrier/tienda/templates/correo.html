@@ -1,0 +1,15 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <p>Hola {{username}} este es el resumen de tu pedido</p>
+        <p>La forma de pago fue: {{formapago}}</p>
+        <p>El total de la compra fue: {{totalventa}}</p>
+        {%for articulo in articulos%}
+        <p>Producto: {{articulo.articulo}}</p>
+        <p>Cantidad: {{articulo.cantidad}}</p>
+        <p>Subtotal: {{articulo.subtotal}}</p>
+        {%endfor%}
+    </body>
+</html>

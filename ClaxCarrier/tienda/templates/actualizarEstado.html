@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}Restock Producto{% endblock titulo %}
+{% block cabecera %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock cabecera %}
+{% block cuerpo %}
+<div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="{% static 'images/icono-restock.png' %}" alt="" width="100" height="100">
+    <h1 class="display-5 fw-bold">Cambiar Estado del Pedido</h1>
+    <div class="col-lg-6 mx-auto">
+      <div class="lead mb-4">
+        <form novalidate action= "{% url 'adminHome' %}" method="POST">
+        {% csrf_token %}
+        <label for="StockProducto" class="form-label">El total del pedido es {{venta.total}} pesos</label>
+        <input class="form-control" id="EstadoPedido" name="EstadoPedido" placeholder="" value="{{venta.status}}">
+      </div>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="submit" class="btn btn-primary">Actualizar </button>
+        <a type="button" class="btn btn-outline-secondary" href = "{% url 'adminHome' %}"> Cancelar </a>
+      </div>
+    </form>
+    </div>
+  </div>
+  <script>
+    function validaNumericos(event) {
+        if(event.charCode >= 48 && event.charCode <= 57){
+          return true;
+         }
+         return false;        
+    }
+  </script>
+{% endblock cuerpo %}
+

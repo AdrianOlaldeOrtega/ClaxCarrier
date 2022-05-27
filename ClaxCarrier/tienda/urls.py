@@ -38,6 +38,8 @@ urlpatterns = [
     path('filtroStock/', views.filtroStock, name="buscarStockProducto"),
 
     #ADMINISTRADOR
-    path("administrador/", views.adminHome, name="adminHome"),
-    
+    path('administrador/', views.adminHome, name="adminHome"),
+    path('actualizarEstado/<int:id>', views.actualizarEstado, name="actualizarEstado"),
+    path('filtroId/', views.buscarIdVenta, name="buscarIdventa"),
+    path('filtrofecha/', views.buscarFechaventa, name="buscarFechaventa"),
 ]
