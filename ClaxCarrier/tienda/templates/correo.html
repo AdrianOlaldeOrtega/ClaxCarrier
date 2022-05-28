@@ -1,15 +1,92 @@
 <html>
     <head>
+            <link rel="stylesheet" href="correo_style.css">
+            <style> 
+            /*h2,img{
+                display: inline-block;
+            }*/
+            h2 { 
+                margin: 0;
+                padding: 2%;
+                background-color: #00A6CA;
+                color: whitesmoke;
+                font-size: 2em;
+                
+               } 
+            p {
+                margin: 0;
+                font-size: 1em;
+            }
 
-    </head>
+            #compras {
+                font-family: Arial;
+                font-size:13px;
+                border-collapse: collapse;
+                width: 100%
+            }
+            #compras td, #compras th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            #compras tr:nth-child(even){
+                background-color: #f2f2f2;
+            }
+
+            #compras tr:hover {
+                background-color: #ddd;
+            }
+
+            #compras th {
+                padding-top: 1%;
+                padding-bottom: 1%;
+                text-align: center;
+                background-color: #002E63;
+                color: white;
+            }
+
+            footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-size: contain;
+                background-color: #00A6CA;
+                color: white;
+            }
+            </style>
+        </head>
     <body>
-        <p>Hola {{username}} este es el resumen de tu pedido</p>
-        <p>La forma de pago fue: {{formapago}}</p>
-        <p>El total de la compra fue: {{totalventa}}</p>
-        {%for articulo in articulos%}
-        <p>Producto: {{articulo.articulo}}</p>
-        <p>Cantidad: {{articulo.cantidad}}</p>
-        <p>Subtotal: {{articulo.subtotal}}</p>
-        {%endfor%}
+        <!--<img src="{% static '/images/logo.png'%}">-->
+        <h2>Claxcarrier Internet WIFI</h2>
+        <br><br>
+        <p>Hola <b>{{username}}</b> este es el resumen de tu pedido</p>
+        <p>Forma de pago: {{formapago}}</p>
+        <p>Total de compra: {{totalventa}}</p>
+        <br>
+        <table id = "compras">
+            <caption>Desglose de Compras</caption>
+            <tr>
+                <th>PRODUCTO</th>
+                <th>CANTIDAD</th>
+                <th>SUBTOTAL</th>
+            </tr>
+            {%for articulo in articulos%}
+            <tr>
+                <td>{{articulo.articulo}}</td>
+                <td>{{articulo.cantidad}}</td>
+                <td>{{articulo.subtotal}}</td>
+            </tr>
+            {%endfor%}
+        </table> 
+        <br><br>
+        <p><b>Gracias por comprar con nostros.</b></p>       
     </body>
+
+    <footer>
+        <p>Contactanos</p>
+        <p>Telefono: <a href="tel:4513526891">(451)3526891</a></p> 
+        <p>Pagina Web: <a href="">Claxcarrier</a></p>
+    </footer>
 </html>
