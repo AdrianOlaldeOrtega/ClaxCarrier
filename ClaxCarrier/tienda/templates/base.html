@@ -16,10 +16,10 @@
       
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-          <a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center">
+          <a href="{% url 'logout'%}?next={{request.path}}" class="navbar-brand d-flex align-items-center">
             Logout
           </a>
-          <h4 style="color: #f9fafb; font-size: 12px;" >Hola Juan, Bienvenido</h4>
+          <h4 style="color: #f9fafb; font-size: 12px;" >Hola {{user.get_username}}, Bienvenido</h4>
         </div>
       </div>
     </header>

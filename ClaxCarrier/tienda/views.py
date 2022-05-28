@@ -7,6 +7,8 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from tienda.Carrito import Carrito
 from .models import Producto, Venta, Cliente, ArticuloVendido
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import User, BaseUserManager
 # Create your views here.
 #HOME
 def index(request):
@@ -134,14 +136,12 @@ def guardarVenta(request):
     return redirect('graciasCompra')
 
 #ALMACENISTA
+@permission_required('tienda.view_producto')
 def almacenHome(request):
     productos = Producto.objects.all().order_by('stock')
     return render(request, "almacenHome.html", {"productos":productos})
 
-def editarestado(request,Idventa):
-    venta = Venta.objects.filter(id=Idventa).update(field8='Completada')
-
-
+@permission_required('tienda.view_producto')
 def nuevoProducto(request):
     return render(request, 'InsertarProducto.html')
 
@@ -157,6 +157,7 @@ def guardarProducto(request):
         post.save() 
     return redirect('almacenHome')
 
+@permission_required('tienda.view_producto')
 def editarProducto(request, id):
     producto = Producto.objects.get(id=id)
     return render(request, "editarProducto.html", {"producto": producto})
@@ -172,6 +173,7 @@ def actualizarProducto(request, id):
         post.save()
     return redirect('almacenHome')
 
+@permission_required('tienda.view_producto')
 def editarStock(request, id):
     producto = Producto.objects.get(id=id)
     return render(request, "restockProducto.html", {"producto": producto})
@@ -186,6 +188,7 @@ def actualizarStock(request, id):
         post.save()
     return redirect('almacenHome')
 
+@permission_required('tienda.view_producto')
 def bajaProducto(request, id):
     producto = Producto.objects.get(id=id)
     return render(request, "eliminarProducto.html", {"producto":producto})
@@ -195,18 +198,21 @@ def eliminarProducto(request, id):
     post.delete()
     return redirect('almacenHome')
 
+@permission_required('tienda.view_producto')
 def filtroNombre(request):
     if request.method == 'POST':
         nombre = request.POST["nombre"]
         post = Producto.objects.filter(nombre=nombre).order_by('stock')
     return render(request, "buscarProducto.html", {"productos":post})
 
+@permission_required('tienda.view_producto')
 def filtroCategoria(request):
     if request.method == 'POST':
         categoria = request.POST["CategoriaProducto"]
         post = Producto.objects.filter(categoria=categoria).order_by('stock')
     return render(request, "buscarProducto.html", {"productos":post})
 
+@permission_required('tienda.view_producto')
 def filtroStock(request):
     if request.method == 'POST':
         stock = request.POST["stock"]
@@ -214,31 +220,36 @@ def filtroStock(request):
     return render(request, "buscarProducto.html", {"productos":post})
 
 #ADMINISTRADOR
+@permission_required('tienda.view_venta')
 def adminHome(request):
     ventas = Venta.objects.all().order_by('fechaRealizada')
     return render(request, "adminHome.html", {"ventas":ventas})
 
+@permission_required('tienda.view_venta')
 def actualizarEstado(request,id):
     post = Venta.objects.get(id=id)
-    print(post.status)
     estado="Completada"
     post.status = estado
-    print("1"+post.status)
     post.save()
     ventas = Venta.objects.all().order_by('fechaRealizada')
     return render(request,"actualizarEstado.html",{"ventas":ventas})
 
+@permission_required('tienda.view_venta')
 def buscarIdVenta(request):
     if request.method == 'POST':
         id = request.POST["nombre"]
         post = Venta.objects.filter(id=id).order_by("id")
     return render(request, "buscarventaid.html", {"ventas":post})
 
+@permission_required('tienda.view_venta')
 def buscarFechaventa(request):
     if request.method == 'POST':
         id = request.POST["Fecha"]
         post = Venta.objects.filter(fechaRealizada=id).order_by("fechaRealizada")
     return render(request, "buscarventafecha.html", {"ventas":post})
+
+def editarestado(request,Idventa):
+    venta = Venta.objects.filter(id=Idventa).update(field8='Completada')
 
 def create_mail(user_mail, subject, tem,context):
     template = get_template('correo.html')
@@ -256,3 +267,51 @@ def create_mail(user_mail, subject, tem,context):
 
     message.attach_alternative(content, 'text/html')
     return message
+
+#USUARIOS
+@permission_required('auth.view_user')
+def usuariosHome(request):
+    usuarios = User.objects.all()
+    grupo1 = User.objects.filter(groups__name__in=['almacen'])
+    grupo2 = User.objects.filter(groups__name__in=['administrador'])
+    return render(request, "usuariosHome.html", {"usuarios":usuarios,"almacenista":grupo1,"admin":grupo2})
+
+@permission_required('auth.view_user')
+def nuevoUsuario(request):
+    return render(request, 'UsuariosInsertar.html')
+
+def guardarUsuario(request):
+    if request.method == 'POST':
+        username = request.POST["Username"]
+        email = request.POST["EmailUsuario"]
+        password = request.POST["PasswordUsuario"]
+        rol = request.POST["RolUsuario"]
+        user = User.objects.create_user(username, email, password)
+        user.first_name = request.POST["NombreUsuario"]
+        user.last_name = request.POST["ApellidoUsuario"]
+        if rol == "Administrador":
+            user.groups.add(4)
+        else: 
+            user.groups.add(3)
+        user.save()
+    return redirect('usuariosHome')
+
+@permission_required('auth.view_user')
+def bajaUsuario(request, id):
+    user = User.objects.get(id=id)
+    return render(request, "UsuariosEliminar.html", {"usuario":user})
+
+def eliminarUsuario(request, id):
+    post = User.objects.get(id=id)
+    post.delete()
+    return redirect('usuariosHome')
+
+def cambiarRol(request, rol, id):
+    post = User.objects.get(id=id)
+    if rol == 4:
+        post.groups.remove(4)
+        post.groups.add(3)
+    else:
+        post.groups.remove(3)
+        post.groups.add(4)
+    return redirect('usuariosHome')

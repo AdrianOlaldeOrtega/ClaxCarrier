@@ -141,28 +141,25 @@ hr {
   <main>
     <div class="text-center">
       <img class="d-block mx-auto mb-4" src="{% static 'images/logo.png' %}" alt="" width="100" height="100">
-      <h2> Historial de Ventas</h2>
+      <h2> Gestion de Usuarios </h2>
         <br>
     </div>
-    
-<hr>
-        <a class="btn btn-primary col-md-12" href="{% url 'adminHome' %}" role="button">Regresar</a>
-        <br></br>
+    <hr>
+    <a class="btn btn-primary col-md-12" href="{% url 'adminHome' %}" role="button">Regresar</a>
+    <br></br>
+    <a class="btn btn-success col-md-12" href="{% url 'nuevoUsuario' %}" role="button"> Agregar Usuario </a>
     <hr>
     
-    {% for venta in ventas%}
-    {% if venta.status == "Pendiente"%}
-    <div class="bg-danger border-card ">
-      <div class="card-type-icon with-border text-white">{{venta.id}}</div>
+    {% for usuario in almacenista%}
+    <div class="bg-secundary border-card ">
+      <div class="card-type-icon with-border text-white">{{usuario.id}}</div>
       <div class="content-wrapper">
       <div class="label-group fixed">
-      <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-      <p class="title text-white">Estado {{venta.status}} </p>
-      <p class="caption text-white">Total: ${{venta.total}}0</p>
-      <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-      <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-      <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-  
+        <p class="title ">Almacenista: {{usuario.first_name}} {{usuario.last_name}}</p>
+      <p class="caption ">Nombre de Usuario: {{usuario.username}} </p>
+      <p class="caption ">Correo electronico: {{usuario.email}}</p>
+      <p class="caption ">Contraseña: {{usuario.password}}</p>
+      <p class="caption ">Ultima Conexion: {{usuario.last_login}}</p>
       </div>
   
   
@@ -172,23 +169,22 @@ hr {
       <i class="material-icons end-icon">more_vert</i>
     </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
-          <li><a class="dropdown-item" href = {% url 'actualizarEstado' id=venta.id %}><i class="material-icons end-icons">history</i>  Cambiar a Terminada</a></li>
+          <li><a class="dropdown-item" href = "{% url 'cambiarRol' 3 usuario.id %}"><i class="material-icons end-icons">edit</i>  Cambiar a Administrador</a></li>
+          <li><a class="dropdown-item" href = "{% url 'bajaUsuario' usuario.id %}"><i class="material-icons end-icons">delete</i>  Eliminar</a></li>
       </ul>
   </div>
       </div>
-    {% else %}
-    <div class="bg-success border-card ">
-        <div class="card-type-icon with-border text-white">{{venta.id}}</div>
+    {% endfor %}
+    {% for usuario in admin%}
+    <div class="bg-primary border-card ">
+        <div class="card-type-icon with-border text-white">{{usuario.id}}</div>
         <div class="content-wrapper">
         <div class="label-group fixed">
-        <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-        <p class="title text-white">Estado {{venta.status}} </p>
-        <p class="caption text-white">Total: ${{venta.total}}0</p>
-        <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-        <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-        <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-    
+          <p class="title text-white">Administrador: {{usuario.first_name}} {{usuario.last_name}} </p>
+          <p class="caption text-white">Nombre de Usuario: {{usuario.username}} </p>
+          <p class="caption text-white">Correo electronico: {{usuario.email}}</p>
+          <p class="caption text-white">Contraseña: {{usuario.password}}</p>
+          <p class="caption text-white">Ultima Conexion: {{usuario.last_login}}</p>
         </div>
     
     
@@ -198,12 +194,11 @@ hr {
         <i class="material-icons end-icon">more_vert</i>
       </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
+          <li><a class="dropdown-item" href = "{% url 'cambiarRol' 4 usuario.id %}"><i class="material-icons end-icons">edit</i>  Cambiar a Almacenista</a></li>
+          <li><a class="dropdown-item" href = "{% url 'bajaUsuario' usuario.id %}"><i class="material-icons end-icons">delete</i>  Eliminar</a></li>
         </ul>
     </div>
         </div>
-    {% endif %}
-    
     {% endfor %}
 
 
