@@ -226,7 +226,7 @@ def adminHome(request):
     return render(request, "adminHome.html", {"ventas":ventas})
 
 @permission_required('tienda.view_venta')
-def actualizarEstado(request,id):
+def actualizarEstado(request, id):
     post = Venta.objects.get(id=id)
     estado="Completada"
     post.status = estado
@@ -247,6 +247,12 @@ def buscarFechaventa(request):
         id = request.POST["Fecha"]
         post = Venta.objects.filter(fechaRealizada=id).order_by("fechaRealizada")
     return render(request, "buscarventafecha.html", {"ventas":post})
+
+def vercompleta(request, id):
+     vent = Venta.objects.get(id=id)
+     cliente = Cliente.objects.get(id=id)
+     artventa = ArticuloVendido.objects.filter(id=id)
+     return render(request, "vercompleta.html",{"vent":vent, "object":cliente,"articulos":artventa})
 
 def editarestado(request,Idventa):
     venta = Venta.objects.filter(id=Idventa).update(field8='Completada')
