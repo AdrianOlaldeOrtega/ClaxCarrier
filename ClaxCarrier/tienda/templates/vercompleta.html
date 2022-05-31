@@ -174,7 +174,6 @@ hr {
 <hr>
         <a class="btn btn-primary col-md-12" href="{% url 'adminHome' %}" role="button">Regresar</a>
         <br></br>
-    <a class="btn btn-success col-md-12" href="#" role="button"><i class="material-icons end-icons">person</i> Administrar Usuarios </a>
     <hr>
     <table id="compras">
     <tr>
@@ -209,66 +208,6 @@ hr {
     {%endfor%}
     <tr><td colspan=4><b>Estado: {{vent.status}}</td><td>Total: {{vent.total}}</td></tr>
     </table>
-    {% for venta in ventas%}
-    {% if venta.status == "Pendiente"%}
-    <div class="bg-danger border-card ">
-      <div class="card-type-icon with-border text-white">{{venta.id}}</div>
-      <div class="content-wrapper">
-      <div class="label-group fixed">
-      <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-      <p class="title text-white">Estado {{venta.status}} </p>
-      <p class="caption text-white">Total: ${{venta.total}}0</p>
-      <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-      <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-      <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-  
-      </div>
-  
-  
-      </div>
-      <div class="dropdown dropend">
-    <button class="btn btn-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="material-icons end-icon">more_vert</i>
-    </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
-          <li><a class="dropdown-item" href = {% url 'actualizarEstado' id=venta.id %}><i class="material-icons end-icons">history</i>  Cambiar a Terminada</a></li>
-      </ul>
-  </div>
-      </div>
-    {% else %}
-    <div class="bg-success border-card ">
-        <div class="card-type-icon with-border text-white">{{venta.id}}</div>
-        <div class="content-wrapper">
-        <div class="label-group fixed">
-        <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-        <p class="title text-white">Estado {{venta.status}} </p>
-        <p class="caption text-white">Total: ${{venta.total}}0</p>
-        <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-        <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-        <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-    
-        </div>
-    
-    
-        </div>
-        <div class="dropdown dropend">
-      <button class="btn btn-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="material-icons end-icon">more_vert</i>
-      </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
-        </ul>
-    </div>
-        </div>
-    {% endif %}
-    
-    {% endfor %}
-
-
-
-
-
   </main>
 
 </div>
