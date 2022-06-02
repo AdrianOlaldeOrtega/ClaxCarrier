@@ -121,7 +121,33 @@ hr {
   font-weight: 400;
   color: #302828;
 }
+#compras {
+    font-family: Arial;
+    font-size:13px;
+    border-collapse: collapse;
+    width: 100%
+}
+#compras td, #compras th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
 
+#compras tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#compras tr:hover {
+    background-color: #ddd;
+}
+
+#compras th {
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: center;
+    background-color: #002E63;
+    color: white;
+}
 .end-icon {
   margin-left: 16px;
 }
@@ -144,98 +170,44 @@ hr {
       <h2> Historial de Ventas</h2>
         <br>
     </div>
-    <div class="row">
-    <div class="col-md-6">
-        <div class="p-4 mb-3 bg-light rounded">
-      <form class="needs-validation d-flex" novalidate action = "{% url 'buscarIdventa' %}" method = "POST">
-          {% csrf_token %}
-              <input class="form-control me-2" type="search" name = "nombre" id="name" placeholder="Folio" aria-label="Search" required>
-              <div class="invalid-feedback">
-                Ingresar Folio valido.
-              </div>
-              <button class="btn btn-outline-primary" type="submit">Buscar</button>
-      </form>
-  </diV>
-</div>
-<div class="col-md-6">
-    <div class="p-4 mb-3 bg-light rounded">
-      <form action = "#" method = "POST" class="needs-validation d-flex" novalidate>
-          {% csrf_token %}
-              <input class="form-control me-2" type="date" name = "Fecha" placeholder="Fecha" aria-label="Search" required>
-              <div class="invalid-feedback">
-                Ingresar Fecha valido.
-              </div> 
-              <button class="btn btn-outline-primary" type="submit">Buscar</button>
-      </form>
-    </div>
-  </diV>
-</div>
+    
 <hr>
         <a class="btn btn-primary col-md-12" href="{% url 'adminHome' %}" role="button">Regresar</a>
         <br></br>
-    <a class="btn btn-success col-md-12" href="#" role="button"><i class="material-icons end-icons">person</i> Administrar Usuarios </a>
     <hr>
+    <table id="compras">
+    <tr>
+        <td>Id cliente: {{object.id}}</td>
+        <td colspan=2>Nombre: {{object.nombreCliente}} {{object.apellidoCliente}}</td>
+        <td colspan=1>Correo: {{object.email}}</td>
+        <td>Fecha: {{vent.fechaRealizada}}</td>
+    </tr>
+    <tr>
+        <td>Domicilio: {{object.Domicilio}}</td>
+        <td>Info Adcional: {{object.infoAdicional}}</td>
+        <td>CP: {{object.codigoPostal}}</td>
+        <td>Estado: {{object.estado}}</td>
+        <td>País: {{object.pais}}
+    </tr>
+    <tr>
+        <td>Metodo de pago: {{vent.formaPago}}</td>
+        <td colspan=2>Número de Tarjeta: {{vent.numeroTarjeta}}</td>
+        <td>CCV: {{vent.cvv}}</td>
+        <td>Vencimiento: {{vent.vencimiento}}</td>
+    </tr>
+    <tr>
+        <td colspan=5><b>PRODUCTOS</b></td>
+    </tr>
     
-    {% for venta in ventas%}
-    {% if venta.status == "Pendiente"%}
-    <div class="bg-danger border-card ">
-      <div class="card-type-icon with-border text-white">{{venta.id}}</div>
-      <div class="content-wrapper">
-      <div class="label-group fixed">
-      <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-      <p class="title text-white">Estado {{venta.status}} </p>
-      <p class="caption text-white">Total: ${{venta.total}}0</p>
-      <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-      <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-      <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-  
-      </div>
-  
-  
-      </div>
-      <div class="dropdown dropend">
-    <button class="btn btn-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="material-icons end-icon">more_vert</i>
-    </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href = "{% url 'vercompleta' id=venta.id %}"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
-          <li><a class="dropdown-item" href = {% url 'actualizarEstado' id=venta.id %}><i class="material-icons end-icons">history</i>  Cambiar a Terminada</a></li>
-      </ul>
-  </div>
-      </div>
-    {% else %}
-    <div class="bg-success border-card ">
-        <div class="card-type-icon with-border text-white">{{venta.id}}</div>
-        <div class="content-wrapper">
-        <div class="label-group fixed">
-        <p class="title text-white">Cliente: {{venta.idCliente}} </p>
-        <p class="title text-white">Estado {{venta.status}} </p>
-        <p class="caption text-white">Total: ${{venta.total}}0</p>
-        <p class="caption text-white">Fecha: {{venta.fechaRealizada}}</p>
-        <p class="caption text-white">Forma de Pago: {{venta.formaPago}}</p>
-        <p class="caption text-white">Datos de la Tarjeta: {{venta.nombrePropietario}} Numero: {{venta.numeroTarjeta}} Vencimiento: {{venta.vencimiento}} CVV: {{venta.cvv}}</p>
-    
-        </div>
-    
-    
-        </div>
-        <div class="dropdown dropend">
-      <button class="btn btn-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="material-icons end-icon">more_vert</i>
-      </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href = {% url 'vercompleta' id=venta.id %}><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
-        </ul>
-    </div>
-        </div>
-    {% endif %}
-    
-    {% endfor %}
-
-
-
-
-
+    {%for articulo in articulos%}
+            <tr>
+                <td colspan=3s>{{articulo.articulo}}</td>
+                <td>{{articulo.cantidad}}</td>
+                <td>{{articulo.subtotal}}</td>
+            </tr>
+    {%endfor%}
+    <tr><td colspan=4><b>Estado: {{vent.status}}</td><td>Total: {{vent.total}}</td></tr>
+    </table>
   </main>
 
 </div>

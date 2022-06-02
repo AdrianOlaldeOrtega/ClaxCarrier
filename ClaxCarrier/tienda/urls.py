@@ -42,6 +42,7 @@ urlpatterns = [
     path('actualizarEstado/<int:id>', views.actualizarEstado, name="actualizarEstado"),
     path('filtroId/', views.buscarIdVenta, name="buscarIdventa"),
     path('filtrofecha/', views.buscarFechaventa, name="buscarFechaventa"),
+    path('vercompleta/<int:id>', views.vercompleta, name="vercompleta"),
     path('usuarios/',views.usuariosHome, name="usuariosHome"),
     path('usuario/', views.nuevoUsuario, name="nuevoUsuario"),
     path('newUsuario/', views.guardarUsuario, name='guardarUsuario'),

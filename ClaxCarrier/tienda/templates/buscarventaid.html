@@ -172,7 +172,7 @@ hr {
       <i class="material-icons end-icon">more_vert</i>
     </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
+          <li><a class="dropdown-item" href = {% url 'vercompleta' id=venta.id %}><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
           <li><a class="dropdown-item" href = {% url 'actualizarEstado' id=venta.id %}><i class="material-icons end-icons">history</i>  Cambiar a Terminada</a></li>
       </ul>
   </div>
@@ -198,7 +198,7 @@ hr {
         <i class="material-icons end-icon">more_vert</i>
       </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href = "#"><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
+            <li><a class="dropdown-item" href = {% url 'vercompleta' id=venta.id %}><i class="material-icons end-icons">edit</i>  Ver Completo</a></li>
         </ul>
     </div>
         </div>
